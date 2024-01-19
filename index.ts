@@ -1,11 +1,12 @@
 import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
+import 'dotenv/config'
 
-const REGION = "us-east-2";
+const REGION = process.env.AWS_REGION as string;
 const sesClient = new SESv2Client({ region: REGION });
 
-const SES_IDENTITY_ARN = process.env.SES_IDENTITY_ARN as string
-const EMAIL_FROM = process.env.EMAIL_FROM as string
-const EMAIL_TO = process.env.EMAIL_FROM as string
+const SES_IDENTITY_ARN = process.env.SES_IDENTITY_ARN as string;
+const EMAIL_FROM = process.env.EMAIL_FROM as string;
+const EMAIL_TO = process.env.EMAIL_TO as string;
 
 const createSendEmailCommand = () => {
   return new SendEmailCommand({
@@ -20,16 +21,15 @@ const createSendEmailCommand = () => {
       Simple: {
         Subject: {
           Charset: "UTF-8",
-          Data: "EMAIL_SUBJECT",
+          Data: "Test",
         },
         Body: {
           Text: {
             Charset: "UTF-8",
-            Data: "TEXT_FORMAT_BODY",
+            Data: "Some data",
           },
         }
       },
-
     },
   });
 };
@@ -45,6 +45,7 @@ const run = async () => {
     return e;
   }
 };
+
 
 (async () => {
   await run();
